@@ -1,6 +1,4 @@
 const TeleBot = require('telebot');
-
-// Включить опрос сервера
 const bot = new TeleBot('567021299:AAGAi1GtVk-H0N5uI1OfhojwlgQNzHF956A');
 
 var request = require('request');
@@ -86,7 +84,7 @@ var complite = 0;
 
 bot.start();
 
-bot.on(/\/start/, function (msg, match) {
+bot.on('/start', (msg, match) => {
     let replyMarkup = bot.keyboard([
         ['Курсы валют']
     ], {
@@ -99,8 +97,9 @@ bot.on(/\/start/, function (msg, match) {
 });
 
 bot.on('text', msg => {
-    bot.sendMessage(msg.from.id, msg.text);
+    return bot.sendMessage(msg.from.id, msg.text);
 });
+
 /*
     if (msg.text == 'Курсы валют') {
         bot.sendMessage(msg.from.id, 'Запрос к биржам. Ожидайте...');
