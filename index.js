@@ -65,7 +65,7 @@ var urls = [{
         birga: 'poloniex'
     },
     {
-        pair: 'RUB-BTS',
+        pair: 'RUB-MAID',
         url: 'https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_MAID&depth=1',
         birga: 'poloniex'
     }    
