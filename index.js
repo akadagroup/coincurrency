@@ -105,9 +105,11 @@ bot.on('text', msg => {
 
         if (!err && response.statusCode == 200) {
             let course = parseFloat(JSON.parse(body).BTC_RUB.bid_top);
+            console.log(`RUB-BTC: ${course.toFixed(2)}`);
             result.push('RUB-BTC: ' + course.toFixed(2));
             urls.forEach(pair => {
                 request.get(pair.url, function (error, response, body) {
+                    console.log(complite);
                     if (!error && response.statusCode == 200) {
                         bxJSON = JSON.parse(body);
 
