@@ -30,11 +30,6 @@ var urls = [{
         birga: 'bittrex'
     },
     {
-        pair: 'RUB-MAID',
-        url: 'https://bittrex.com/api/v1.1/public/getticker?market=BTC-MAID',
-        birga: 'bittrex'
-    },
-    {
         pair: 'RUB-GRC',
         url: 'https://bittrex.com/api/v1.1/public/getticker?market=BTC-GRC',
         birga: 'bittrex'
@@ -68,7 +63,12 @@ var urls = [{
         pair: 'RUB-BTS',
         url: 'https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_BTS&depth=1',
         birga: 'poloniex'
-    }
+    },
+    {
+        pair: 'RUB-BTS',
+        url: 'https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_MAID&depth=1',
+        birga: 'poloniex'
+    }    
 ];
 
 var whiteList = [
