@@ -130,13 +130,12 @@ bot.on('text', msg => {
                         result.push(pair.pair + ': ОШИБКА!');
                         return bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
                     }
-                    if (complite >= urls.length-1) {
+                    if (complite >= urls.length) {
 
                         let r = '';
                         result.sort().forEach(item => {
                             r = r + item + '\n';
                         });
-                        console.log(r);
                         return bot.sendMessage(msg.from.id, r);
                     }
 
