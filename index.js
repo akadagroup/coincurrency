@@ -98,52 +98,51 @@ bot.on('/start', (msg, match) => {
 
 bot.on('text', msg => {
     console.log(`message ${msg.text}`);
-    if (msg.text == 'Курсы валют') {
-        request.get('https://api.exmo.com/v1/order_book/?pair=BTC_RUB&limit=1', (error, response, body) => {
-            complite = 0;
-            result = [];
+    request.get('https://api.exmo.com/v1/order_book/?pair=BTC_RUB&limit=1', (err, response, body) => {
+        complite = 0;
+        result = [];
 
-            if (!error && response.statusCode == 200) {
-                let course = parseFloat(JSON.parse(body).BTC_RUB.bid_top);
-                result.push('RUB-BTC: ' + course.toFixed(2));
-                urls.forEach(pair => {
-                    request.get(pair.url, function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            bxJSON = JSON.parse(body);
+        if (!err && response.statusCode == 200) {
+            let course = parseFloat(JSON.parse(body).BTC_RUB.bid_top);
+            result.push('RUB-BTC: ' + course.toFixed(2));
+            urls.forEach(pair => {
+                request.get(pair.url, function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        bxJSON = JSON.parse(body);
 
-                            try {
-                                if (pair.birga == 'bittrex')
-                                    r = parseFloat(bxJSON.result.Bid);
-                                else {
-                                    r = parseFloat(bxJSON.bids[0][0]);
-                                }
-
-                                result.push(pair.pair + ': ' + (r * course).toFixed(2));
-                                complite++;
-                                if (complite == urls.length) {
-                                    let r = '';
-                                    result.sort().forEach(item => {
-                                        r = r + item + '\n';
-                                    });
-                                    return ot.sendMessage(msg.from.id, r);
-                                }
-                            } catch (error) {
-                                result.push(pair.pair + ': ОШИБКА!');
-                                complite++;
+                        try {
+                            if (pair.birga == 'bittrex')
+                                r = parseFloat(bxJSON.result.Bid);
+                            else {
+                                r = parseFloat(bxJSON.bids[0][0]);
                             }
 
-
-                        } else {
+                            result.push(pair.pair + ': ' + (r * course).toFixed(2));
+                            complite++;
+                            if (complite == urls.length) {
+                                let r = '';
+                                result.sort().forEach(item => {
+                                    r = r + item + '\n';
+                                });
+                                return ot.sendMessage(msg.from.id, r);
+                            }
+                        } catch (err) {
                             result.push(pair.pair + ': ОШИБКА!');
                             complite++;
-                            return bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
                         }
-                    });
 
+
+                    } else {
+                        result.push(pair.pair + ': ОШИБКА!');
+                        complite++;
+                        return bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
+                    }
                 });
 
+            });
+        }
+        else 
+            return bot.sendMessage(msg.from.id, `Ошибка ${err}` + url.pair);
 
-            }
-        });
-    }
+    });
 });
