@@ -97,54 +97,54 @@ bot.on('/start', (msg, match) => {
 });
 
 bot.on('text', msg => {
-    console.log(`message ${msg.text}`);
-    request.get('https://api.exmo.com/v1/order_book/?pair=BTC_RUB&limit=1', (err, response, body) => {
-        complite = 0;
-        result = [];
-        console.log(`message ${response.statusCode} / ${err}`);
+    if (whiteList.indexOf(msg.from.id) != -1) {
+        console.log(`message send id: ${msg.from.id} (${msg.from.first_name} ${msg.from.last_name} )`);
+        request.get('https://api.exmo.com/v1/order_book/?pair=BTC_RUB&limit=1', (err, response, body) => {
+            complite = 0;
+            result = [];
+            if (!err && response.statusCode == 200) {
+                let course = parseFloat(JSON.parse(body).BTC_RUB.bid_top);
+                result.push('RUB-BTC: ' + course.toFixed(2));
+                urls.forEach(pair => {
+                    request.get(pair.url, function (error, response, body) {
+                        complite++;
+                        if (!error && response.statusCode == 200) {
+                            bxJSON = JSON.parse(body);
 
-        if (!err && response.statusCode == 200) {
-            let course = parseFloat(JSON.parse(body).BTC_RUB.bid_top);
-            console.log(`RUB-BTC: ${course.toFixed(2)}`);
-            result.push('RUB-BTC: ' + course.toFixed(2));
-            urls.forEach(pair => {
-                request.get(pair.url, function (error, response, body) {
-                    console.log(`${complite} of ${urls.length}`);
-                    complite++;
-                    if (!error && response.statusCode == 200) {
-                        bxJSON = JSON.parse(body);
+                            try {
+                                if (pair.birga == 'bittrex')
+                                    r = parseFloat(bxJSON.result.Bid);
+                                else {
+                                    r = parseFloat(bxJSON.bids[0][0]);
+                                }
 
-                        try {
-                            if (pair.birga == 'bittrex')
-                                r = parseFloat(bxJSON.result.Bid);
-                            else {
-                                r = parseFloat(bxJSON.bids[0][0]);
+                                result.push(pair.pair + ': ' + (r * course).toFixed(2));
+
+                            } catch (err) {
+                                result.push(pair.pair + ': ОШИБКА!');
                             }
-
-                            result.push(pair.pair + ': ' + (r * course).toFixed(2));
-                            
-                        } catch (err) {
+                        } else {
                             result.push(pair.pair + ': ОШИБКА!');
+                            return bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
                         }
-                    } else {
-                        result.push(pair.pair + ': ОШИБКА!');
-                        return bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
-                    }
-                    if (complite == urls.length) {
+                        if (complite == urls.length) {
 
-                        let r = '';
-                        result.sort().forEach(item => {
-                            r = r + item + '\n';
-                        });
-                        return bot.sendMessage(msg.from.id, r);
-                    }
+                            let r = '';
+                            result.sort().forEach(item => {
+                                r = r + item + '\n';
+                            });
+                            return bot.sendMessage(msg.from.id, r);
+                        }
+
+                    });
 
                 });
+            } else
+                return bot.sendMessage(msg.from.id, `Ошибка ${err}` + url.pair);
 
-            });
-        }
-        else 
-            return bot.sendMessage(msg.from.id, `Ошибка ${err}` + url.pair);
-
-    });
+        });
+    } else {
+        console.log(`access denaid: message send id: ${msg.from.id} (${msg.from.first_name} ${msg.from.last_name} )`);
+        return bot.sendMessage(msg.from.id, 'Доступ запрещен');
+    }
 });
