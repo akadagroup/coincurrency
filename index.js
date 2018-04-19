@@ -50,7 +50,12 @@ bot.start();
 
 
 bot.on(/\/start/, function (msg, match) {
-    bot.sendMessage(msg.chat.id, 'Нажмите на кнопку "Курсы валют"', replyOptions);
+    let replyMarkup = bot.keyboard([
+        ['/buttons', '/inlineKeyboard'],
+        ['/start', '/hide']
+    ], {resize: true});
+
+    return bot.sendMessage(msg.from.id, 'Keyboard example.', {replyMarkup});
 });
 
 
