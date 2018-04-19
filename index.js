@@ -99,6 +99,7 @@ bot.on(/\/start/, function (msg, match) {
 });
 
 bot.on('text', msg => {
+    bot.sendMessage(msg.from.id, msg.text);
     if (msg.text == 'Курсы валют') {
         bot.sendMessage(msg.from.id, 'Запрос к биржам. Ожидайте...');
         request.get('https://api.exmo.com/v1/order_book/?pair=BTC_RUB&limit=1', (error, response, body) => {
