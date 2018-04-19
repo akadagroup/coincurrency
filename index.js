@@ -122,7 +122,7 @@ bot.on('text', msg => {
 
                             result.push(pair.pair + ': ' + (r * course).toFixed(2));
                             complite++;
-                            if (complite == urls.length) {
+                            if (complite == urls.length-1) {
                                 let r = '';
                                 result.sort().forEach(item => {
                                     r = r + item + '\n';
