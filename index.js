@@ -97,12 +97,7 @@ bot.on('/start', (msg, match) => {
 });
 
 bot.on('text', msg => {
-    return bot.sendMessage(msg.from.id, msg.text);
-});
-
-/*
     if (msg.text == 'Курсы валют') {
-        bot.sendMessage(msg.from.id, 'Запрос к биржам. Ожидайте...');
         request.get('https://api.exmo.com/v1/order_book/?pair=BTC_RUB&limit=1', (error, response, body) => {
             complite = 0;
             result = [];
@@ -129,7 +124,7 @@ bot.on('text', msg => {
                                     result.sort().forEach(item => {
                                         r = r + item + '\n';
                                     });
-                                    bot.sendMessage(msg.from.id, r);
+                                    return ot.sendMessage(msg.from.id, r);
                                 }
                             } catch (error) {
                                 result.push(pair.pair + ': ОШИБКА!');
@@ -140,7 +135,7 @@ bot.on('text', msg => {
                         } else {
                             result.push(pair.pair + ': ОШИБКА!');
                             complite++;
-                            bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
+                            return bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
                         }
                     });
 
@@ -151,4 +146,3 @@ bot.on('text', msg => {
         });
     }
 });
-*/
