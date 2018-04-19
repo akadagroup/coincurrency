@@ -94,7 +94,7 @@ bot.on(/\/start/, function (msg, match) {
         resize: true
     });
 
-    return bot.sendMessage(msg.from.id, 'Keyboard example.', {
+    return bot.sendMessage(msg.from.id, 'Нажмите кнопку "Курсы валют"', {
         replyMarkup
     });
 });
