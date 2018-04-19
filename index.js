@@ -109,7 +109,7 @@ bot.on('text', msg => {
             result.push('RUB-BTC: ' + course.toFixed(2));
             urls.forEach(pair => {
                 request.get(pair.url, function (error, response, body) {
-                    console.log(complite);
+                    console.log(`${complite} of ${urls.length}`);
                     if (!error && response.statusCode == 200) {
                         bxJSON = JSON.parse(body);
 
