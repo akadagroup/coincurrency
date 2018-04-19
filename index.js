@@ -137,7 +137,7 @@ bot.on('text', msg => {
                             r = r + item + '\n';
                         });
                         console.log(r);
-                        return ot.sendMessage(msg.from.id, r);
+                        return on.sendMessage(msg.from.id, r);
                     }
 
                 });
