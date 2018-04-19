@@ -101,6 +101,7 @@ bot.on('text', msg => {
     request.get('https://api.exmo.com/v1/order_book/?pair=BTC_RUB&limit=1', (err, response, body) => {
         complite = 0;
         result = [];
+        console.log(`message ${response}`);
 
         if (!err && response.statusCode == 200) {
             let course = parseFloat(JSON.parse(body).BTC_RUB.bid_top);
