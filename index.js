@@ -110,6 +110,7 @@ bot.on('text', msg => {
             urls.forEach(pair => {
                 request.get(pair.url, function (error, response, body) {
                     console.log(`${complite} of ${urls.length}`);
+                    complite++;
                     if (!error && response.statusCode == 200) {
                         bxJSON = JSON.parse(body);
 
@@ -121,25 +122,24 @@ bot.on('text', msg => {
                             }
 
                             result.push(pair.pair + ': ' + (r * course).toFixed(2));
-                            complite++;
-                            if (complite == urls.length-1) {
-                                let r = '';
-                                result.sort().forEach(item => {
-                                    r = r + item + '\n';
-                                });
-                                return ot.sendMessage(msg.from.id, r);
-                            }
+                            
                         } catch (err) {
                             result.push(pair.pair + ': ОШИБКА!');
-                            complite++;
                         }
-
-
                     } else {
                         result.push(pair.pair + ': ОШИБКА!');
-                        complite++;
                         return bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
                     }
+                    if (complite >= urls.length-1) {
+
+                        let r = '';
+                        result.sort().forEach(item => {
+                            r = r + item + '\n';
+                        });
+                        console.log(r);
+                        return ot.sendMessage(msg.from.id, r);
+                    }
+
                 });
 
             });
