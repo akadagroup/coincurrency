@@ -130,7 +130,7 @@ bot.on('text', msg => {
                         result.push(pair.pair + ': ОШИБКА!');
                         return bot.sendMessage(msg.from.id, 'Ошибка получения курса' + url.pair);
                     }
-                    if (complite >= urls.length) {
+                    if (complite == urls.length) {
 
                         let r = '';
                         result.sort().forEach(item => {
